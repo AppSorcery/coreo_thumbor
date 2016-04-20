@@ -5,15 +5,6 @@ files_dir="$(pwd)/../files"
 
 yum -y update
 
-#install npm
-yum -y install npm --enablerepo=epel
-npm install -g n
-n latest
-rm /usr/bin/npm
-ln -s /usr/local/bin/npm /usr/bin/npm
-rm /usr/bin/node
-ln -s /usr/local/bin/node /usr/bin/node
-
 #install thumbor
 yum -y install python-devel gcc autoconf.noarch automake git
 yum -y install libjpeg-turbo-devel.x86_64 libjpeg-turbo-utils.x86_64 libtiff-devel.x86_64 libpng-devel.x86_64 pngcrush jasper-devel.x86_64 libwebp-devel.x86_64 python-pip 
@@ -42,12 +33,25 @@ cp "$files_dir/gifsicle.py" "/usr/local/lib64/python2.7/site-packages/thumbor/op
 
 
 THUMBOR=/etc/thumbor.conf
-cat /usr/local/bin/thumbor-config "$files_dir/template-thumbor-config" > $THUMBOR
+/usr/local/bin/thumbor-config > $THUMBOR.old
+cat $THUMBOR.old "$files_dir/template-thumbor-config" > $THUMBOR
 
 sed -i -e "s/#LOADER\(.*\)=\(.*\)'thumbor.loaders.http_loader'/LOADER\1=\2'thumbor_aws.loaders.s3_loader'/" $THUMBOR
 sed -i -e "s/#SECURITY_KEY\(.*\)=\(.*\)'MY_SECURE_KEY'/SECURITY_KEY\1=\2'mTf3FVAo5F8ST3uEf6X1f7waUgP0ukYV'/" $THUMBOR
+sed -i -e "s/#RESPECT_ORIENTATION\(.*\)=\(.*\)False/RESPECT_ORIENTATION\1=\2True/" $THUMBOR
+
 #ALLOW_UNSAFE_URL = True
 #ALLOW_OLD_URLS = True
+
+#install supervisor
+easy_install supervisor
+
+chmod +x "$files_dir/supervisord"
+cp "$files_dir/supervisord" /etc/init.d/supervisord
+chkconfig --add supervisord
+
+cp "$files_dir/supervisord.conf" /etc/supervisord.conf
+/etc/init.d/supervisord start
 
 
 #install nginx
@@ -65,12 +69,6 @@ sed -i -e "s/SERVER_NAME/thumbor.$DNS_ZONE/" $NGINX/sites-available/thumbor.$DNS
 service nginx restart
 /sbin/chkconfig nginx on
 
-#install forever
-npm install forever forever-service -g
-ln -s /usr/local/bin/forever /usr/bin/forever
-ln -s /usr/local/bin/forever-service /usr/bin/forever-service
 
-#echo "forever-service install thumbor --script app.js -o \" $APP_STARTUP_ARGS\""
-#forever-service install thumbor --script app.js -o " $APP_STARTUP_ARGS"
-#service thumbor start
 
+service nginx restart
