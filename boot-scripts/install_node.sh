@@ -42,6 +42,8 @@ cp "$files_dir/gifsicle.py" "/usr/local/lib64/python2.7/site-packages/thumbor/op
 
 
 THUMBOR=/etc/thumbor.conf
+cat /usr/local/bin/thumbor-config "$files_dir/template-thumbor-config" > $THUMBOR
+
 sed -i -e "s/#LOADER\(.*\)=\(.*\)'thumbor.loaders.http_loader'/LOADER\1=\2'thumbor_aws.loaders.s3_loader'/" $THUMBOR
 sed -i -e "s/#SECURITY_KEY\(.*\)=\(.*\)'MY_SECURE_KEY'/SECURITY_KEY\1=\2'mTf3FVAo5F8ST3uEf6X1f7waUgP0ukYV'/" $THUMBOR
 #ALLOW_UNSAFE_URL = True

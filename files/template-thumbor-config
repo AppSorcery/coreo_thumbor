@@ -1,0 +1,58 @@
+################# Thumbor AWS ################### 
+## Configuration for AWS 
+## https://github.com/thumbor-community/aws
+
+# the Amazon Web Services access key to use
+#AWS_ACCESS_KEY = "AKIAJMOZGWYLFDD3BXGA"
+# the Amazon Web Services secret of the used access key
+#AWS_SECRET_KEY = "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"
+
+# Alternatively (recommended), use Role-based connection
+# http://docs.aws.amazon.com/IAM/latest/UserGuide/roles-assume-role.html
+AWS_ROLE_BASED_CONNECTION = False
+
+
+# configuration settings specific for the s3_loader
+
+# list of allowed buckets for the s3_loader
+#S3_ALLOWED_BUCKETS = []
+
+# alternatively: set a fixed bucket, no need for bucket name in Image-Path
+S3_LOADER_BUCKET = 'cdn.amenity.io.s3-website-us-east-1'
+# A root path for loading images, useful if you share the bucket
+S3_LOADER_ROOT_PATH = '/'
+
+# configuration settings specific for the storages
+
+STORAGE_BUCKET = ''
+# A root path for the storage, useful if you share a bucket for loading / storing
+STORAGE_AWS_STORAGE_ROOT_PATH = 'storage'
+
+RESULT_STORAGE_BUCKET = ''
+RESULT_STORAGE_AWS_STORAGE_ROOT_PATH = 'result'
+# It stores metadata like content-type on the result object
+RESULT_STORAGE_S3_STORE_METADATA = False
+
+# put data into S3 using the Server Side Encryption functionality to
+# encrypt data at rest in S3
+# https://aws.amazon.com/about-aws/whats-new/2011/10/04/amazon-s3-announces-server-side-encryption-support/
+S3_STORAGE_SSE = False
+
+# put data into S3 with Reduced Redundancy
+# https://aws.amazon.com/about-aws/whats-new/2010/05/19/announcing-amazon-s3-reduced-redundancy-storage/
+S3_STORAGE_RRS = False
+
+
+#Optional config value to enable the HTTP loader
+#This would allow you to load watermarks in over your images dynamically through a URI
+#E.g.
+#http://your-thumbor.com/unsafe/filters:watermark(http://example.com/watermark.png,0,0,50)/s3_bucket/photo.jpg
+AWS_ENABLE_HTTP_LOADER = False
+
+
+# Optional additional configuration for the Boto-Client used to access S3.
+# see http://boto.readthedocs.org/en/latest/ref/s3.html?highlight=boto.s3.connection.s3connection#boto.s3.connection.S3Connection
+# for all available config options
+BOTO_CONFIG = {
+    'calling_format' : 'boto.s3.connection.OrdinaryCallingFormat'
+}
