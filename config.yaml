@@ -19,14 +19,14 @@ variables:
         overrides: null
         required: true
         type: null
-    THUMBOR_BUCKET:
+    APP_BUCKET:
         default: cdn.amenity.io
-        description: the name of the bucket from which we should pull images
+        description: the name of the bucket from which we should pull the app
         overrides: null
         required: true
-    THUMBOR_BUCKET_REGION:
+    APP_BUCKET_REGION:
         default: us-east-1
-        description: the region where there thumbor bucket was created
+        description: the region where there app bucket was created
         overrides: null
         required: true
     PUBLIC_ROUTE_NAME:
@@ -39,6 +39,11 @@ variables:
         overrides: null
         required: true
         type: null
+    APP_NAME:
+        default: thumbor
+        description: the name of the app to launch
+        overrides: null
+        required: true
     VPN_ACCESS_CIDRS:
         default:
             - 0.0.0.0/0
@@ -56,6 +61,12 @@ variables:
         description: the name of the subnet the elb should created in (should correspond to ELB_TYPE)
         overrides: null
         required: true
+    APP_DNS_PREFIX:
+        default: thumbor
+        description: the dns entry to create for the app
+        overrides: null
+        required: true
+        type: null
     DNS_ZONE:
         default: amenity.io
         description: the dns entry for the zone (i.e. example.com)
@@ -69,15 +80,15 @@ variables:
         overrides: null
         required: true
         type: array
-    THUMBOR_INSTANCE_TYPE:
+    APP_INSTANCE_TYPE:
         default: t2.micro
         description: null
         overrides: null
         required: true
         type: null
-    THUMBOR_SSH_KEY_NAME:
+    APP_SSH_KEY_NAME:
         default: thumbor.amenity.io
-        description: What key should the thumbor instance be launched with?
+        description: What key should the app instance be launched with?
         overrides: null
         required: true
         type: null
@@ -88,28 +99,37 @@ variables:
         overrides: null
         required: true
         type: null
-    THUMBOR_BUCKET_PATH:
+    APP_BUCKET_PATH:
         default: images
-        description: the path within THUMBOR_BUCKET from which we should pull the images
+        description: the path within APP_BUCKET from which we should pull the app
         overrides: null
         required: true
-    DNS_PREFIX:
-        default: thumbor
-        description: the dns entry to create for the instance
+    APP_ARCHIVE_NAME:
+        default: "123"
+        description: the name of the .tar.gz file which contains your app code
         overrides: null
         required: true
-        type: null
     ELB_NAME:
         default: "STACK::coreo_aws_ec2_elb.thumbor-elb.dns_name"
         required: true
         descripiton: comma seperated list of the private subnet ids
+    ELB_PROXY_PORT:
+        default: 80
+        description: elb proxy port
+        overrides: null
+        required: true
+    APP_PORT:
+        default: 3000
+        description: upstream app port
+        overrides: null
+        required: true
     REGION:
         default: "INSTANCE::region"
         description: the region we are launching in
         overrides: null
         required: true
         type: string
-    THUMBOR_AMI_ID:
+    APP_AMI_ID:
         description: the ami id of the vpn
         switch: "INSTANCE::region"
         cases:
@@ -127,5 +147,10 @@ variables:
         default: null
         value: null
         description: "If you have a datadog key, enter it here and we will install the agent"
+        overrides: null
+        required: false
+    APP_STARTUP_ARGS:
+        default: null
+        description: the environment string to pass to node on start
         overrides: null
         required: false
