@@ -1,26 +1,4 @@
 variables:
-    DNS_ZONE:
-        default: null
-        description: the dns entry for the zone (i.e. example.com)
-        overrides: null
-        required: true
-        type: null
-    THUMBOR_BUCKET:
-        default: null
-        description: the name of the bucket from which we should pull images
-        overrides: null
-        required: true
-    THUMBOR_SSH_KEY_NAME:
-        default: null
-        description: What key should the thumbor instance be launched with?
-        overrides: null
-        required: true
-        type: null
-    THUMBOR_BUCKET_PATH:
-        default: null
-        description: the path within THUMBOR_BUCKET from which we should pull the images
-        overrides: null
-        required: true
     VPC_NAME:
         required: true
         description: the name of the VPC
@@ -41,6 +19,16 @@ variables:
         overrides: null
         required: true
         type: null
+    THUMBOR_BUCKET:
+        default: cdn.amenity.io
+        description: the name of the bucket from which we should pull images
+        overrides: null
+        required: true
+    THUMBOR_BUCKET_REGION:
+        default: us-east-1
+        description: the region where there thumbor bucket was created
+        overrides: null
+        required: true
     PUBLIC_ROUTE_NAME:
         required: true
         description: the name to give to the public route
@@ -68,6 +56,12 @@ variables:
         description: the name of the subnet the elb should created in (should correspond to ELB_TYPE)
         overrides: null
         required: true
+    DNS_ZONE:
+        default: amenity.io
+        description: the dns entry for the zone (i.e. example.com)
+        overrides: null
+        required: true
+        type: null
     VPN_SSH_ACCESS_CIDRS:
         default:
             - 10.0.0.0/8
@@ -81,6 +75,12 @@ variables:
         overrides: null
         required: true
         type: null
+    THUMBOR_SSH_KEY_NAME:
+        default: thumbor.amenity.io
+        description: What key should the thumbor instance be launched with?
+        overrides: null
+        required: true
+        type: null
     TIMEZONE:
         default: America/Chicago
         value: America/Chicago
@@ -88,17 +88,17 @@ variables:
         overrides: null
         required: true
         type: null
+    THUMBOR_BUCKET_PATH:
+        default: images
+        description: the path within THUMBOR_BUCKET from which we should pull the images
+        overrides: null
+        required: true
     DNS_PREFIX:
         default: thumbor
         description: the dns entry to create for the instance
         overrides: null
         required: true
         type: null
-    THUMBOR_BUCKET_REGION:
-        default: us-east-1
-        description: the region where there thumbor bucket was created
-        overrides: null
-        required: true
     ELB_NAME:
         default: "STACK::coreo_aws_ec2_elb.thumbor-elb.dns_name"
         required: true
