@@ -31,7 +31,7 @@ coreo_aws_vpc_subnet "${PRIVATE_SUBNET_NAME}" do
   vpc "${VPC_NAME}"
 end
 
-coreo_aws_s3_policy "${APP_BUCKET}-policy" do
+coreo_aws_s3_policy "${THUMBOR_BUCKET}-policy" do
   action :sustain
   policy_document <<-EOF
 {
@@ -45,8 +45,8 @@ coreo_aws_s3_policy "${APP_BUCKET}-policy" do
       },
       "Action": "s3:*",
       "Resource": [
-        "arn:aws:s3:::${APP_BUCKET}/*",
-        "arn:aws:s3:::${APP_BUCKET}"
+        "arn:aws:s3:::${THUMBOR_BUCKET}/*",
+        "arn:aws:s3:::${THUMBOR_BUCKET}"
       ]
     }
   ]
@@ -54,10 +54,10 @@ coreo_aws_s3_policy "${APP_BUCKET}-policy" do
 EOF
 end
 
-coreo_aws_s3_bucket "${APP_BUCKET}" do
+coreo_aws_s3_bucket "${THUMBOR_BUCKET}" do
    action :sustain
-   bucket_policies ["${APP_BUCKET}-policy"]
-   region "${APP_BUCKET_REGION}"
+   bucket_policies ["${THUMBOR_BUCKET}-policy"]
+   region "${THUMBOR_BUCKET_REGION}"
 end
 
 coreo_aws_vpc_routetable "${PUBLIC_ROUTE_NAME}" do
@@ -71,7 +71,7 @@ coreo_aws_vpc_subnet "${PUBLIC_SUBNET_NAME}" do
   vpc "${VPC_NAME}"
 end
 
-coreo_aws_ec2_securityGroups "${APP_NAME}-elb-sg" do
+coreo_aws_ec2_securityGroups "thumbor-elb-sg" do
   action :sustain
   description "Open https to the world"
   vpc "${VPC_NAME}"
@@ -110,12 +110,12 @@ coreo_aws_ec2_securityGroups "${APP_NAME}-elb-sg" do
     ]
 end
 
-coreo_aws_ec2_elb "${APP_NAME}-elb" do
+coreo_aws_ec2_elb "thumbor-elb" do
   action :sustain
   type "${ELB_TYPE}"
   vpc "${VPC_NAME}"
   subnet "${ELB_SUBNET_NAME}"
-  security_groups ["${APP_NAME}-elb-sg"]
+  security_groups ["thumbor-elb-sg"]
   listeners [
              {
                :elb_protocol => 'tcp', 
@@ -132,14 +132,14 @@ coreo_aws_ec2_elb "${APP_NAME}-elb" do
   health_check_healthy_threshold 2
 end
 
-coreo_aws_route53_record "${APP_DNS_PREFIX}" do
+coreo_aws_route53_record "${THUMBOR_DNS_PREFIX}" do
   action :sustain
   type "CNAME"
   zone "${DNS_ZONE}"
-  values ["STACK::coreo_aws_ec2_elb.${APP_NAME}-elb.dns_name"]
+  values ["STACK::coreo_aws_ec2_elb.thumbor-elb.dns_name"]
 end
 
-coreo_aws_ec2_securityGroups "${APP_NAME}-sg" do
+coreo_aws_ec2_securityGroups "thumbor-sg" do
   action :sustain
   description "Open connections to the world"
   vpc "${VPC_NAME}"
@@ -148,17 +148,17 @@ coreo_aws_ec2_securityGroups "${APP_NAME}-sg" do
             :direction => :ingress,
             :protocol => :tcp,
             :ports => ["0..65535"],
-            :groups => ["${APP_NAME}-elb-sg"],
+            :groups => ["thumbor-elb-sg"],
           },{ 
             :direction => :ingress,
             :protocol => :udp,
             :ports => ["0..65535"],
-            :groups => ["${APP_NAME}-elb-sg"],
+            :groups => ["thumbor-elb-sg"],
           },{ 
             :direction => :ingress,
             :protocol => :icmp,
             :ports => ["0..65535"],
-            :groups => ["${APP_NAME}-elb-sg"],
+            :groups => ["thumbor-elb-sg"],
           },{ 
             :direction => :ingress,
             :protocol => :tcp,
@@ -183,9 +183,9 @@ coreo_aws_ec2_securityGroups "${APP_NAME}-sg" do
     ]
 end
 
-coreo_aws_iam_policy "${APP_NAME}-route53" do
+coreo_aws_iam_policy "thumbor-route53" do
   action :sustain
-  policy_name "${APP_NAME}Route53Management"
+  policy_name "ThumborRoute53Management"
   policy_document <<-EOH
 {
   "Statement": [
@@ -203,29 +203,9 @@ coreo_aws_iam_policy "${APP_NAME}-route53" do
 EOH
 end
 
-coreo_aws_iam_policy "${APP_NAME}-rds" do
+coreo_aws_iam_policy "thumbor-elb" do
   action :sustain
-  policy_name "${APP_NAME}RDSManagement"
-  policy_document <<-EOH
-{
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Resource": [
-          "*"
-      ],
-      "Action": [ 
-          "rds:*"
-      ]
-    }
-  ]
-}
-EOH
-end
-
-coreo_aws_iam_policy "${APP_NAME}-elb" do
-  action :sustain
-  policy_name "${APP_NAME}ELBManagement"
+  policy_name "ThumborELBManagement"
   policy_document <<-EOH
 {
   "Statement": [
@@ -244,26 +224,26 @@ EOH
 end
 
 
-coreo_aws_iam_instance_profile "${APP_NAME}" do
+coreo_aws_iam_instance_profile "thumbor" do
   action :sustain
-  policies ["${APP_NAME}-route53", "${APP_NAME}-rds", "${APP_NAME}-elb"]
+  policies ["thumbor-route53", "thumbor-elb"]
 end
 
-coreo_aws_ec2_instance "${APP_NAME}" do
+coreo_aws_ec2_instance "thumbor" do
   action :define
   upgrade_trigger "1"
-  image_id "${APP_AMI_ID}"
-  size "${APP_INSTANCE_TYPE}"
-  security_groups ["${APP_NAME}-sg"]
-  ssh_key "${APP_SSH_KEY_NAME}"
-  role "${APP_NAME}"
+  image_id "${THUMBOR_AMI_ID}"
+  size "${THUMBOR_INSTANCE_TYPE}"
+  security_groups ["thumbor-sg"]
+  ssh_key "${THUMBOR_SSH_KEY_NAME}"
+  role "thumbor"
 end
 
-coreo_aws_ec2_autoscaling "${APP_NAME}" do
+coreo_aws_ec2_autoscaling "thumbor" do
   action :sustain 
   minimum 1
   maximum 1
-  server_definition "${APP_NAME}"
+  server_definition "thumbor"
   subnet "${PRIVATE_SUBNET_NAME}"
-  elbs ["${APP_NAME}-elb"]
+  elbs ["thumbor-elb"]
 end
