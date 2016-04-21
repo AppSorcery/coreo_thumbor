@@ -20,7 +20,7 @@ make install
 cd ../  
 rm -rf gifsicle/
 
-pip install thumbor
+pip install thumbor==5.0.6
 pip install https://github.com/99designs/thumbor_botornado/archive/v2.0.1.tar.gz
 
 cp "$files_dir/pngcrush.py" "/usr/local/lib64/python2.7/site-packages/thumbor/optimizers/pngcrush.py " 
