@@ -48,8 +48,8 @@ cp "$files_dir/supervisord" $SUPERVISORD
 chkconfig --add supervisord
 
 cp "$files_dir/supervisord.conf" /etc/supervisord.conf
-sed -i -e "s/AWSACCESSKEYID/$AWS_ACCESS_KEY_ID/" /etc/supervisord.conf
-sed -i -e "s/AWSSECRETACCESSKEY/$AWS_SECRET_ACCESS_KEY/" /etc/supervisord.conf
+sed -i -e "s/THUMBOR_ACCESS_KEY_ID/$THUMBOR_ACCESS_KEY_ID/" /etc/supervisord.conf
+sed -i -e "s/THUMBOR_SECRET_ACCESS_KEY/$THUMBOR_SECRET_ACCESS_KEY/" /etc/supervisord.conf
 $SUPERVISORD start
 
 #install nginx
