@@ -183,6 +183,26 @@ coreo_aws_ec2_securityGroups "thumbor-sg" do
     ]
 end
 
+coreo_aws_iam_policy "thumbor-s3" do
+  action :sustain
+  policy_name "thumborS3"
+  policy_document <<-EOH
+{
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Resource": [
+          "*"
+      ],
+      "Action": [ 
+          "s3:*"
+      ]
+    }
+  ]
+}
+EOH
+end
+
 coreo_aws_iam_policy "thumbor-route53" do
   action :sustain
   policy_name "thumborRoute53Management"
@@ -246,7 +266,7 @@ end
 
 coreo_aws_iam_instance_profile "thumbor" do
   action :sustain
-  policies ["thumbor-route53", "thumbor-rds", "thumbor-elb"]
+  policies ["thumbor-s3", "thumbor-route53", "thumbor-rds", "thumbor-elb"]
 end
 
 coreo_aws_ec2_instance "thumbor" do

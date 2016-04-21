@@ -3,7 +3,7 @@
 coreo_dir="$(pwd)"
 files_dir="$(pwd)/../files"
 
-yum -y update
+#yum -y update
 
 #install thumbor
 yum -y install python-devel gcc autoconf.noarch automake git
