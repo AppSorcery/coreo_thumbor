@@ -15,7 +15,7 @@
 # processname: supervisord
 # pidfile: /var/run/supervisord.pid
 
-SUPERVISORD=/usr/local/bin/supervisord  
+SUPERVISORD=/usr/local/bin/supervisord
 SUPERVISORCTL=/usr/local/bin/supervisorctl  
 ARGS="-c /etc/supervisord.conf"
 

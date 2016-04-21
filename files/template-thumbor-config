@@ -2,23 +2,13 @@
 ## Configuration for AWS 
 ## https://github.com/thumbor-community/aws
 
-# the Amazon Web Services access key to use
-#AWS_ACCESS_KEY = "AKIAJMOZGWYLFDD3BXGA"
-# the Amazon Web Services secret of the used access key
-#AWS_SECRET_KEY = "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"
-
-# Alternatively (recommended), use Role-based connection
-# http://docs.aws.amazon.com/IAM/latest/UserGuide/roles-assume-role.html
-AWS_ROLE_BASED_CONNECTION = False
-
-
 # configuration settings specific for the s3_loader
 
 # list of allowed buckets for the s3_loader
 #S3_ALLOWED_BUCKETS = []
 
 # alternatively: set a fixed bucket, no need for bucket name in Image-Path
-S3_LOADER_BUCKET = 'cdn.amenity.io.s3-website-us-east-1'
+S3_LOADER_BUCKET = ''
 # A root path for loading images, useful if you share the bucket
 S3_LOADER_ROOT_PATH = '/'
 

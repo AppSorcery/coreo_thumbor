@@ -34,7 +34,7 @@ rm $THUMBOR.old
 
 sed -i -e "s/#LOADER\(.*\)=\(.*\)'thumbor.loaders.http_loader'/LOADER\1=\2'thumbor_botornado.s3_loader'/" $THUMBOR
 sed -i -e "s/#SECURITY_KEY\(.*\)=\(.*\)'MY_SECURE_KEY'/SECURITY_KEY\1=\2'mTf3FVAo5F8ST3uEf6X1f7waUgP0ukYV'/" $THUMBOR
-sed -i -e "s/#RESPECT_ORIENTATION\(.*\)=\(.*\)False/RESPECT_ORIENTATION\1=\2True/" $THUMBOR
+#sed -i -e "s/#RESPECT_ORIENTATION\(.*\)=\(.*\)False/RESPECT_ORIENTATION\1=\2True/" $THUMBOR
 
 #ALLOW_UNSAFE_URL = True
 #ALLOW_OLD_URLS = True
@@ -42,13 +42,15 @@ sed -i -e "s/#RESPECT_ORIENTATION\(.*\)=\(.*\)False/RESPECT_ORIENTATION\1=\2True
 #install supervisor
 easy_install supervisor
 
+SUPERVISORD=/etc/init.d/supervisord
 chmod +x "$files_dir/supervisord"
-cp "$files_dir/supervisord" /etc/init.d/supervisord
+cp "$files_dir/supervisord" $SUPERVISORD
 chkconfig --add supervisord
 
 cp "$files_dir/supervisord.conf" /etc/supervisord.conf
-/etc/init.d/supervisord start
-
+sed -i -e "s/AWSACCESSKEYID/$AWS_ACCESS_KEY_ID/" /etc/supervisord.conf
+sed -i -e "s/AWSSECRETACCESSKEY/$AWS_SECRET_ACCESS_KEY/" /etc/supervisord.conf
+$SUPERVISORD start
 
 #install nginx
 yum -y install nginx --enablerepo=epel
