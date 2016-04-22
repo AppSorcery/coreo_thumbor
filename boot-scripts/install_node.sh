@@ -21,7 +21,8 @@ cd ../
 rm -rf gifsicle/
 
 pip install thumbor
-pip install https://github.com/99designs/thumbor_botornado/archive/v2.0.1.tar.gz
+#pip install https://github.com/99designs/thumbor_botornado/archive/v2.0.1.tar.gz
+pip install tc_aws
 
 cp "$files_dir/pngcrush.py" "/usr/local/lib64/python2.7/site-packages/thumbor/optimizers/pngcrush.py " 
 cp "$files_dir/gifsicle.py" "/usr/local/lib64/python2.7/site-packages/thumbor/optimizers/gifsicle.py " 
