@@ -31,7 +31,7 @@ cp "$files_dir/gifsicle.py" "/usr/local/lib64/python2.7/site-packages/thumbor/op
 
 THUMBOR=/etc/thumbor.conf
 /usr/local/bin/thumbor-config > $THUMBOR.old
-cat $THUMBOR.old "$files_dir/template-thumbor-config" > $THUMBOR
+cat $THUMBOR.old "$files_dir/thumbor.conf" > $THUMBOR
 rm $THUMBOR.old
 
 sed -i -e "s/#LOADER\(.*\)=\(.*\)'thumbor.loaders.http_loader'/LOADER\1=\2'tc_aws.loaders.s3_loader'/" $THUMBOR
@@ -60,8 +60,8 @@ NGINX="/etc/nginx"
 
 mkdir -p $NGINX/sites-available
 mkdir -p $NGINX/sites-enabled
-cp "$files_dir/template-nginx-config" "$NGINX/nginx.conf"
-cp "$files_dir/template-thumbor-config" "$NGINX/sites-available/thumbor.$DNS_ZONE.conf"
+cp "$files_dir/nginx.conf" "$NGINX/nginx.conf"
+cp "$files_dir/thumbor.nginx.conf" "$NGINX/sites-available/thumbor.$DNS_ZONE.conf"
 ln -s "$NGINX/sites-available/thumbor.$DNS_ZONE.conf" "$NGINX/sites-enabled/thumbor.$DNS_ZONE.conf"
 
 service nginx restart

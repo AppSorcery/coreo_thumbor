@@ -31,35 +31,6 @@ coreo_aws_vpc_subnet "${PRIVATE_SUBNET_NAME}" do
   vpc "${VPC_NAME}"
 end
 
-coreo_aws_s3_policy "${THUMBOR_BUCKET}-policy" do
-  action :sustain
-  policy_document <<-EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "*"
-      },
-      "Action": "s3:*",
-      "Resource": [
-        "arn:aws:s3:::${THUMBOR_BUCKET}/*",
-        "arn:aws:s3:::${THUMBOR_BUCKET}"
-      ]
-    }
-  ]
-}
-EOF
-end
-
-coreo_aws_s3_bucket "${THUMBOR_BUCKET}" do
-   action :sustain
-   bucket_policies ["${THUMBOR_BUCKET}-policy"]
-   region "${THUMBOR_BUCKET_REGION}"
-end
-
 coreo_aws_vpc_routetable "${PUBLIC_ROUTE_NAME}" do
   action :find
   vpc "${VPC_NAME}"

@@ -1,14 +1,4 @@
 variables:
-    THUMBOR_BUCKET:
-        default: null
-        description: the name of the bucket from which we should pull the app
-        overrides: null
-        required: true
-    THUMBOR_BUCKET_REGION:
-        default: null
-        description: the region where there app bucket was created
-        overrides: null
-        required: true
     DNS_ZONE:
         default: null
         description: the dns entry for the zone (i.e. example.com)
@@ -21,11 +11,6 @@ variables:
         overrides: null
         required: true
         type: null
-    THUMBOR_BUCKET_PATH:
-        default: null
-        description: the path within THUMBOR_BUCKET from which we should pull the app
-        overrides: null
-        required: true
     VPC_NAME:
         required: true
         description: the name of the VPC
@@ -63,16 +48,6 @@ variables:
         overrides: null
         required: true
         type: array
-    ELB_TYPE:
-        default: public
-        description: one of public/internal
-        overrides: null
-        required: true
-    ELB_SUBNET_NAME:
-        default: public-subnet
-        description: the name of the subnet the elb should created in (should correspond to ELB_TYPE)
-        overrides: null
-        required: true
     THUMBOR_DNS_PREFIX:
         default: thumbor
         description: the dns entry to create for the app
@@ -99,20 +74,6 @@ variables:
         overrides: null
         required: true
         type: null
-    ELB_NAME:
-        default: "STACK::coreo_aws_ec2_elb.thumbor-elb.dns_name"
-        required: true
-        descripiton: comma seperated list of the private subnet ids
-    ELB_PROXY_PORT:
-        default: 80
-        description: elb proxy port
-        overrides: null
-        required: true
-    THUMBOR_PORT:
-        default: 8000
-        description: upstream app port
-        overrides: null
-        required: true
     REGION:
         default: "INSTANCE::region"
         description: the region we are launching in
