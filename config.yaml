@@ -21,14 +21,6 @@ variables:
         overrides: null
         required: true
         type: null
-    THUMBOR_ACCESS_KEY_ID:
-        required: true
-        default: null
-        description: the AWS ACCESS KEY ID the thumbor process will use
-    THUMBOR_SECRET_ACCESS_KEY:
-        required: true
-        default: null
-        description: the AWS ACCESS KEY ID the thumbor process will use
     THUMBOR_BUCKET_PATH:
         default: null
         description: the path within THUMBOR_BUCKET from which we should pull the app
