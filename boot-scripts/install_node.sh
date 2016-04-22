@@ -6,11 +6,12 @@ files_dir="$(pwd)/../files"
 yum -y update
 
 #install thumbor
-yum -y install python-devel gcc autoconf.noarch automake git
-yum -y install libjpeg-turbo-devel.x86_64 libjpeg-turbo-utils.x86_64 libtiff-devel.x86_64 libpng-devel.x86_64 pngcrush jasper-devel.x86_64 libwebp-devel.x86_64 python-pip 
-pip install pycurl  
-pip install numpy
+#yum -y install python-devel gcc autoconf.noarch automake git
+#yum -y install libjpeg-turbo-devel.x86_64 libjpeg-turbo-utils.x86_64 libtiff-devel.x86_64 libpng-devel.x86_64 pngcrush jasper-devel.x86_64 libwebp-devel.x86_64 python-pip 
+#pip install pycurl  
+#pip install numpy
 
+yum -y install  
 git clone https://github.com/kohler/gifsicle.git  
 cd gifsicle  
 ./bootstrap.sh
@@ -20,10 +21,7 @@ make install
 cd ../  
 rm -rf gifsicle/
 
-pip install thumbor
-#pip install https://github.com/99designs/thumbor_botornado/archive/v2.0.1.tar.gz
-pip install tc_aws
-pip install boto3
+pip install -y pngcrush tc_aws thumbor boto3
 
 cp "$files_dir/pngcrush.py" "/usr/local/lib64/python2.7/site-packages/thumbor/optimizers/pngcrush.py " 
 cp "$files_dir/gifsicle.py" "/usr/local/lib64/python2.7/site-packages/thumbor/optimizers/gifsicle.py " 
