@@ -3,12 +3,12 @@
 coreo_dir="$(pwd)"
 files_dir="$(pwd)/../files"
 
-yum -y update
+#yum -y update
 
 #install thumbor
-#yum -y install python-devel gcc autoconf.noarch automake git
-#yum -y install libjpeg-turbo-devel.x86_64 libjpeg-turbo-utils.x86_64 libtiff-devel.x86_64 libpng-devel.x86_64 pngcrush jasper-devel.x86_64 libwebp-devel.x86_64 python-pip 
-#pip install pycurl  
+yum -y install python-devel gcc autoconf.noarch automake git
+yum -y install libjpeg-turbo-devel.x86_64 libjpeg-turbo-utils.x86_64 libtiff-devel.x86_64 libpng-devel.x86_64 pngcrush jasper-devel.x86_64 libwebp-devel.x86_64 python-pip 
+pip install pycurl  
 #pip install numpy
 
 yum -y install  
