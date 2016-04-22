@@ -83,9 +83,9 @@ end
 
 coreo_aws_ec2_elb "thumbor-elb" do
   action :sustain
-  type "${ELB_TYPE}"
+  type "public"
   vpc "${VPC_NAME}"
-  subnet "${ELB_SUBNET_NAME}"
+  subnet "${PUBLIC_SUBNET_NAME}"
   security_groups ["thumbor-elb-sg"]
   listeners [
              {
@@ -174,70 +174,9 @@ coreo_aws_iam_policy "thumbor-s3" do
 EOH
 end
 
-coreo_aws_iam_policy "thumbor-route53" do
-  action :sustain
-  policy_name "thumborRoute53Management"
-  policy_document <<-EOH
-{
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Resource": [
-          "*"
-      ],
-      "Action": [ 
-          "route53:*"
-      ]
-    }
-  ]
-}
-EOH
-end
-
-coreo_aws_iam_policy "thumbor-rds" do
-  action :sustain
-  policy_name "thumborRDSManagement"
-  policy_document <<-EOH
-{
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Resource": [
-          "*"
-      ],
-      "Action": [ 
-          "rds:*"
-      ]
-    }
-  ]
-}
-EOH
-end
-
-coreo_aws_iam_policy "thumbor-elb" do
-  action :sustain
-  policy_name "thumborELBManagement"
-  policy_document <<-EOH
-{
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Resource": [
-          "*"
-      ],
-      "Action": [ 
-          "elasticloadbalancing:*"
-      ]
-    }
-  ]
-}
-EOH
-end
-
-
 coreo_aws_iam_instance_profile "thumbor" do
   action :sustain
-  policies ["thumbor-s3", "thumbor-route53", "thumbor-rds", "thumbor-elb"]
+  policies ["thumbor-s3"]
 end
 
 coreo_aws_ec2_instance "thumbor" do
