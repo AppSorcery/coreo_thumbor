@@ -11,6 +11,12 @@ variables:
         overrides: null
         required: true
         type: null
+    THUMBOR_SECURITY_KEY:
+        default: null
+        description: thumbor securtity key
+        overrides: null
+        required: true
+        type: string
     VPC_NAME:
         required: true
         description: the name of the VPC
@@ -80,6 +86,12 @@ variables:
         overrides: null
         required: true
         type: string
+    THUMBOR_ALLOW_UNSAFE_URLS:
+        default: false
+        description: allow unsafe urls true/false -- set to true for testing only
+        overrides: null
+        required: true
+        type: null
     THUMBOR_AMI_ID:
         description: the ami id of the vpn
         switch: "INSTANCE::region"

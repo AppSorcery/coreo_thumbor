@@ -5,4 +5,9 @@
 ##   - run_chef.sh
 
 script-order:
-  - install_node.sh
+  - install_thumbor.sh
+  - setup_thumbor.sh
+  - install_nginx.sh
+  - setup_nginx.sh
+  - install_supervisor.sh
+  - setup_supervisor.sh
