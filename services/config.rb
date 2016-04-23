@@ -103,13 +103,6 @@ coreo_aws_ec2_elb "thumbor-elb" do
   health_check_healthy_threshold 2
 end
 
-coreo_aws_route53_record "${THUMBOR_DNS_PREFIX}" do
-  action :sustain
-  type "CNAME"
-  zone "${DNS_ZONE}"
-  values ["STACK::coreo_aws_ec2_elb.thumbor-elb.dns_name"]
-end
-
 coreo_aws_ec2_securityGroups "thumbor-sg" do
   action :sustain
   description "Open connections to the world"

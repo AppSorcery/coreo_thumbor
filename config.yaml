@@ -1,10 +1,4 @@
 variables:
-    DNS_ZONE:
-        default: null
-        description: the dns entry for the zone (i.e. example.com)
-        overrides: null
-        required: true
-        type: null
     THUMBOR_SSH_KEY_NAME:
         default: null
         description: What key should the app instance be launched with?
@@ -54,12 +48,6 @@ variables:
         overrides: null
         required: true
         type: array
-    THUMBOR_DNS_PREFIX:
-        default: thumbor
-        description: the dns entry to create for the app
-        overrides: null
-        required: true
-        type: null
     VPN_SSH_ACCESS_CIDRS:
         default:
             - 10.0.0.0/8
