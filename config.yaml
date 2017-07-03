@@ -69,7 +69,7 @@ variables:
         required: true
         type: null
     REGION:
-        default: "INSTANCE::region"
+        default: "PLAN::region"
         description: the region we are launching in
         overrides: null
         required: true
@@ -82,7 +82,7 @@ variables:
         type: null
     THUMBOR_AMI_ID:
         description: the ami id of the vpn
-        switch: "INSTANCE::region"
+        switch: "PLAN::region"
         cases:
             us-east-1: ami-1ecae776
             us-west-1: ami-d114f295
